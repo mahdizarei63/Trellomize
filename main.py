@@ -65,4 +65,14 @@ class Admin(User):
                 console.print(f"User {username} activated successfully!", style="bold green")
                 return
         console.print("User not found!", style="bold red")
-   
+     
+     @classmethod
+    def purge_data(cls):
+        confirm = input("Are you sure you want to delete all data? (yes/no): ")
+        if confirm.lower() == 'yes':
+            for file in [USERS_FILE, PROJECTS_FILE, LOG_FILE]:
+                if os.path.exists(file):
+                    os.remove(file)
+            console.print("All data purged!", style="bold green")
+        else:
+            console.print("Purge cancelled.", style="bold red")
