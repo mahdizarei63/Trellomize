@@ -20,7 +20,8 @@ class User:
         self.password = hash_password(password)
         self.role = role
         self.active = active
-def to_dict(self):
+
+    def to_dict(self):
         return {
             'username': self.username,
             'email': self.email,
