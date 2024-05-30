@@ -18,3 +18,28 @@ def hash_password(password):
 def is_valid_email(email):
     email_regex = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
     return re.match(email_regex, email) is not None
+
+class Admin(User):
+    def __init__(self, username, email, password, role='admin', active=True):
+        super().__init__(username, email, password, role, active)
+
+    @classmethod
+    def register_admin(cls):
+        admins = load_data(ADMIN_FILE)
+        
+        while True:
+            username = input("Admin Username: ")
+            password = getpass("Admin Password: ")
+
+            if any(admin['username'] == username for admin in admins):
+                console.print("Admin username already exists!", style="bold red")
+                continue
+
+            new_admin = cls(username, '', password)
+            admins.append(new_admin.to_dict())
+            save_data(admins, ADMIN_FILE)
+            log_message(f"Admin registered with username: {username}")
+            console.print(f"Admin {username} registered successfully!", style="bold green")
+            break
+
+   
