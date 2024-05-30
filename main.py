@@ -20,3 +20,21 @@ class User:
         self.password = hash_password(password)
         self.role = role
         self.active = active
+def to_dict(self):
+        return {
+            'username': self.username,
+            'email': self.email,
+            'password': self.password,
+            'role': self.role,
+            'active': self.active
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            username=data['username'],
+            email=data['email'],
+            password=data['password'],
+            role=data['role'],
+            active=data['active']
+        )
