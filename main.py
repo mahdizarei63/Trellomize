@@ -181,3 +181,12 @@ def delete(self):
         log_message(f"Project {self.id} deleted by user {self.leader}")
         console.print(f"Project {self.id} deleted successfully!", style="bold green")
 
+def _update_project(self):
+        projects = load_data(PROJECTS_FILE)
+        for i, project in enumerate(projects):
+            if project['id'] == self.id:
+                projects[i] = self.to_dict()
+                break
+        save_data(projects, PROJECTS_FILE)
+
+
