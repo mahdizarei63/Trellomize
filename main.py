@@ -173,3 +173,11 @@ def remove_member(self, username):
         self._update_project()
         log_message(f"User {username} added to project {self.id} by {self.leader}")
         console.print(f"User {username} added to project {self.id} successfully!", style="bold green")
+
+def delete(self):
+        projects = load_data(PROJECTS_FILE)
+        projects = [proj for proj in projects if proj['id'] != self.id]
+        save_data(projects, PROJECTS_FILE)
+        log_message(f"Project {self.id} deleted by user {self.leader}")
+        console.print(f"Project {self.id} deleted successfully!", style="bold green")
+
