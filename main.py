@@ -138,3 +138,22 @@ class Admin(User):
         console.print(table)
         return user_projects
 
+
+  def add_member(self, username):
+        if username in self.members:
+            console.print("User already a member of the project!", style="bold red")
+            return
+
+        users = load_data(USERS_FILE)
+        admins = load_data(ADMIN_FILE)
+        all_users = users + admins
+
+        user_to_add = next((usr for usr in all_users if usr['username'] == username), None)
+        if not user_to_add:
+            console.print("User not found!", style="bold red")
+            return
+
+        self.members.append(username)
+        self._update_project()
+        log_message(f"User {username} added to project {self.id} by {self.leader}")
+        console.print(f"User {username} added to project {self.id} successfully!", style="bold green")
