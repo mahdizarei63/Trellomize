@@ -95,4 +95,46 @@ class Admin(User):
             'tasks': self.tasks
         }
 
-  
+   @classmethod
+    def from_dict(cls, data):
+        project = cls(data['title'], data['leader'])
+        project.id = data['id']
+        project.members = data['members']
+        project.tasks = data['tasks']
+        return project
+
+    @classmethod
+    def create_project(cls, user):
+        projects = load_data(PROJECTS_FILE)
+        title = input("Project title: ")
+        project = cls(title, user.username)
+        projects.append(project.to_dict())
+        save_data(projects, PROJECTS_FILE)
+        log_message(f"Project created with ID: {project.id} by user: {user.username}")
+        console.print(f"Project {title} created successfully with ID: {project.id}", style="bold green")
+
+    @classmethod
+    def list_projects(cls, user):
+        projects = load_data(PROJECTS_FILE)
+        user_projects = [cls.from_dict(proj) for proj in projects if user.username in proj['members']]
+
+        if not user_projects:
+            console.print("No projects found!", style="bold red")
+            return None
+
+        table = Table(title="Projects", show_lines=True)
+        table.add_column("Index", style="yellow")
+        table.add_column("Title", style="magenta")
+        table.add_column("ID", style="green")
+        table.add_column("Role", style="red")
+        table.add_column("Leader", style="blue")
+        table.add_column("Members", style="cyan")
+
+        for index, project in enumerate(user_projects, start=1):
+            members = ", ".join(project.members)
+            role = "Leader" if user.username == project.leader else "Member"
+            table.add_row(str(index), project.title, project.id, role, project.leader, members)
+
+        console.print(table)
+        return user_projects
+
