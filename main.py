@@ -190,3 +190,15 @@ def _update_project(self):
         save_data(projects, PROJECTS_FILE)
 
 
+def display_details(self):
+        table = Table(title="Project Details", show_lines=True)
+        table.add_column("Property", style="cyan")
+        table.add_column("Value", style="magenta")
+
+        table.add_row("ID", self.id)
+        table.add_row("Title", self.title)
+        table.add_row("Leader", self.leader)
+        table.add_row("Members", ", ".join(self.members))
+        console.print(table)
+
+
