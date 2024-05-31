@@ -76,3 +76,23 @@ class Admin(User):
             console.print("All data purged!", style="bold green")
         else:
             console.print("Purge cancelled.", style="bold red")
+
+     
+  class Project:
+    def __init__(self, title, leader):
+        self.id = str(uuid.uuid4())
+        self.title = title
+        self.leader = leader
+        self.members = [leader]
+        self.tasks = []
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'leader': self.leader,
+            'members': self.members,
+            'tasks': self.tasks
+        }
+
+  
