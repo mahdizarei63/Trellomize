@@ -157,3 +157,19 @@ class Admin(User):
         self._update_project()
         log_message(f"User {username} added to project {self.id} by {self.leader}")
         console.print(f"User {username} added to project {self.id} successfully!", style="bold green")
+
+
+def remove_member(self, username):
+        if username not in self.members:
+            console.print("User not a member of the project!", style="bold red")
+            return
+
+        self.members.remove(username)
+        self._update_project()
+        log_message(f"User {username} removed from project {self.id} by {self.leader}")
+        console.print(f"User {username} removed from project {self.id} successfully!", style="bold green")
+
+        self.members.append(username)
+        self._update_project()
+        log_message(f"User {username} added to project {self.id} by {self.leader}")
+        console.print(f"User {username} added to project {self.id} successfully!", style="bold green")
